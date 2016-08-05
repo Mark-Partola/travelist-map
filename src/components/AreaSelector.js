@@ -11,17 +11,21 @@ export default class AreaSelector extends React.Component {
 
         let template = [];
 
-        for (let area in this.props.areas) {
+        for (let code in this.props.areas) {
 
-            if (!this.props.areas.hasOwnProperty(area)) continue;
+            if (!this.props.areas.hasOwnProperty(code)) continue;
+
+            let isChecked = !!this.props.selectedAreas.includes(code);
 
             template.push(
-                <div className="area-selector__item checker" key={area}>
+                <div className="area-selector__item checker" key={code}>
                     <label className="checker__label">
-                        <span>{this.props.areas[area].fullName}</span>
+                        <span>{this.props.areas[code].fullName}</span>
                         <input onChange={this.selectArea.bind(this)}
-                               className="checker__box" type="checkbox"
-                               value={area}/>
+                               checked={isChecked}
+                               className="checker__box"
+                               type="checkbox"
+                               value={code}/>
                     </label>
                 </div>
             );

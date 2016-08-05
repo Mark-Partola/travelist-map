@@ -830,13 +830,18 @@ export default class MapContainer extends React.Component {
     render() {
         return (
             <div style={{width: '100%'}}>
+
                 <MapComponent map={this.state.currentMap}
                               areas={this.state.currentAreas}
                               selectedAreas={this.state.selectedAreas}
-                              onChangeMap={this.onChangeMap.bind(this)}/>
+                              onChangeMap={this.onChangeMap.bind(this)}
+                              onSelectArea={this.onSelectArea.bind(this)}/>
+
                 <AreaSelector
+                    selectedAreas={this.state.selectedAreas}
                     onSelectArea={this.onSelectArea.bind(this)}
                     areas={this.state.currentAreas}/>
+
             </div>
         );
     }

@@ -147,7 +147,8 @@ export default class Map extends React.Component {
                           data-code={code}
                           className="map-area"
                           onMouseEnter={this.toggleTooltip.bind(this, true)}
-                          onMouseLeave={this.toggleTooltip.bind(this, false)}/>
+                          onMouseLeave={this.toggleTooltip.bind(this, false)}
+                          onClick={this.onClick.bind(this)} />
                 </g>
             );
         });
@@ -176,18 +177,25 @@ export default class Map extends React.Component {
             this.setState({
                 mapTooltip: {
                     content: tooltipText,
-                    x: event.screenX,
+                    x: event.screenX + 20,
                     y: event.screenY - 50
                 }
             });
+
             this._previousStep = Date.now();
         }
 
     }
 
+    onClick(event) {
+        let action = !event.target.classList.contains('map-area--selected');
+        this.props.onSelectArea(action, event.target.getAttribute('data-code'));
+    }
+
     getCats() {
         return this.availableMaps.map((map, index) => {
-            return <a className="map-cats__item" key={index}
+            return <a className="map-cats__item"
+                      key={index}
                       onClick={this.onChangeMap.bind(this, map.type)}>{map.name}</a>
         });
     }
@@ -207,6 +215,6 @@ export default class Map extends React.Component {
                          y={this.state.mapTooltip.y}
                          content={this.state.mapTooltip.content} />
             </div>
-        )
+        );
     }
 }

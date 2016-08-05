@@ -28,8 +28,12 @@
             cursor: pointer;
         }
 
-        .map-area:hover {
+        .map-area:not(.map-area--selected):hover {
             fill: #eee;
+        }
+
+        .map-area.map-area--selected:hover {
+            fill: rgb(127, 152, 158);
         }
 
         .map-area--selected {
