@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        .map-container {
+            width: 700px;
+            height: 400px;
+            background-color: #000;
+        }
+
+        .area-selector {
+            margin-top: 10px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+
+        .area-selector__item {
+            width: 150px;
+            margin: 20px 5px 5px;
+        }
+
+        .map-area {
+            fill: rgb(217, 232, 238);
+            transition: fill .3s;
+        }
+
+        .map-area--selected {
+            fill: rgb(117, 132, 138);
+        }
+
+        .checker {}
+
+        .checker__label {
+            display: flex;
+            justify-content: space-between;
+            color: #444;
+            font-family: sans-serif;
+            font-size: 14px;
+        }
+
+        .checker__box {
+            border: none;
+            background-color: #e8e8e8;
+        }
+
+        .map-component {
+            display: flex;
+        }
+
+        .map-component__cats {
+
+        }
+
+        .map-cats {
+
+        }
+
+        .map-cats__item {
+            display: block;
+            margin: 10px;
+            text-decoration: none;
+            font-size: 16px;
+            color: #444;
+            font-family: sans-serif;
+            cursor: pointer;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="map-component"></div>
+    <script src="./dist/bundle.js"></script>
+</body>
+</html>
