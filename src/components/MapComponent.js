@@ -1,5 +1,6 @@
 import React from 'react';
 import Utils from './../utils/utils';
+import Tooltip from './Tooltip';
 
 import WorldMap from './maps/world';
 import EuropeMap from './maps/europe';
@@ -9,14 +10,23 @@ import USAMap from './maps/countries/usa';
 import IndiaMap from './maps/countries/india';
 import GermanyMap from './maps/countries/germany';
 
-import ReactTooltip from 'react-tooltip'
-
 export default class Map extends React.Component {
 
     constructor (props, context) {
         super(props, context);
         this.isAdd = false;
         this.addSelectingArea = '';
+
+        this.state = {
+            mapTooltip: {
+                content: '',
+                x: 0,
+                y: 0
+            }
+        };
+
+        this._tooltipTimeout = 1000 / 15;
+        this._previousStep = 0;
 
         this.availableMaps = [
             {
@@ -135,7 +145,9 @@ export default class Map extends React.Component {
                     <path onMouseMove={this.onMouseMove.bind(this)}
                           d={this.props.areas[code].path}
                           data-code={code}
-                          className="map-area" />
+                          className="map-area"
+                          onMouseEnter={this.toggleTooltip.bind(this, true)}
+                          onMouseLeave={this.toggleTooltip.bind(this, false)}/>
                 </g>
             );
         });
@@ -151,10 +163,26 @@ export default class Map extends React.Component {
         return template;
     }
 
+    toggleTooltip(enable) {
+        document.querySelector('.tooltip')
+            .style.display = enable ? "block" : "";
+    }
+
     onMouseMove(event) {
         let code = event.target.getAttribute('data-code');
         let tooltipText = this.props.areas[code].fullName;
-        console.log(tooltipText);
+
+        if ((Date.now()) - this._previousStep > this._tooltipTimeout) {
+            this.setState({
+                mapTooltip: {
+                    content: tooltipText,
+                    x: event.screenX,
+                    y: event.screenY - 50
+                }
+            });
+            this._previousStep = Date.now();
+        }
+
     }
 
     getCats() {
@@ -174,6 +202,10 @@ export default class Map extends React.Component {
                 <div className="map-container">
                     {this.getSelectedMap(this.props.map)}
                 </div>
+
+                <Tooltip x={this.state.mapTooltip.x}
+                         y={this.state.mapTooltip.y}
+                         content={this.state.mapTooltip.content} />
             </div>
         )
     }
