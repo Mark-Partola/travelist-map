@@ -779,9 +779,10 @@ export default class MapContainer extends React.Component {
                     path    : 'M569.03,249.95l0.88,-0.15l1.69,0.49l0.54,0.55l-2.46,-0.35l-0.65,-0.54ZM563.84,247.6l2.37,-0.43l0.64,0.55l0.25,0.72l-0.18,0.45l-1.9,0.02l-1.19,-1.3Z'
                 }
             },
-            currentAreas: []
+            currentAreas: {},
+            filteredAreas: {}
         };
-    };
+    }
 
     componentWillMount() {
         this.filterAreasByMapType(this.state.currentMap);
@@ -800,7 +801,8 @@ export default class MapContainer extends React.Component {
             }
         }
 
-        this.state.currentAreas = currentAreas;
+        this.state.currentAreas = Object.assign({}, currentAreas);
+        this.state.filteredAreas = Object.assign({}, currentAreas);
     }
 
     onChangeMap(type) {
@@ -823,8 +825,26 @@ export default class MapContainer extends React.Component {
             );
         }
 
-        this.setState({selectedAreas: newAreas});
+        this.setState({ selectedAreas: newAreas });
 
+    }
+
+    filterAreas(keyWord) {
+
+        let filteredAreas = {},
+            areas = this.state.currentAreas;
+
+        for (let area in areas) {
+            if (!areas.hasOwnProperty(area)){
+                continue;
+            }
+
+            if (areas[area].fullName.indexOf(keyWord) === 0) {
+                filteredAreas[area] = areas[area];
+            }
+        }
+
+        this.setState({ filteredAreas });
     }
 
     render() {
@@ -835,12 +855,12 @@ export default class MapContainer extends React.Component {
                               areas={this.state.currentAreas}
                               selectedAreas={this.state.selectedAreas}
                               onChangeMap={this.onChangeMap.bind(this)}
-                              onSelectArea={this.onSelectArea.bind(this)}/>
+                              onSelectArea={this.onSelectArea.bind(this)} />
 
-                <AreaSelector
-                    selectedAreas={this.state.selectedAreas}
-                    onSelectArea={this.onSelectArea.bind(this)}
-                    areas={this.state.currentAreas}/>
+                <AreaSelector selectedAreas={this.state.selectedAreas}
+                              onSelectArea={this.onSelectArea.bind(this)}
+                              areas={this.state.filteredAreas}
+                              filterAreas={this.filterAreas.bind(this)} />
 
             </div>
         );

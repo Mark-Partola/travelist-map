@@ -25,7 +25,7 @@ export default class AreaSelector extends React.Component {
                                checked={isChecked}
                                className="checker__box"
                                type="checkbox"
-                               value={code}/>
+                               value={code} />
                     </label>
                 </div>
             );
@@ -34,10 +34,21 @@ export default class AreaSelector extends React.Component {
         return template;
     }
 
+    onKeyUp(event) {
+        this.props.filterAreas(event.target.value);
+    }
+
     render () {
         return (
-            <div className="area-selector">
-                {this.templateCreator()}
+            <div>
+                <div className="area-search">
+                    <input className="area-search__input"
+                           type="text"
+                           onKeyUp={this.onKeyUp.bind(this)} />
+                </div>
+                <div className="area-selector">
+                    {this.templateCreator()}
+                </div>
             </div>
         );
     }
