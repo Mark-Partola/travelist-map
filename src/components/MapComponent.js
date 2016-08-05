@@ -3,13 +3,13 @@ import Utils from './../utils/utils';
 
 import WorldMap from './maps/world';
 import EuropeMap from './maps/europe';
-import AsiaMap from './maps/asia';
-import OceaniaMap from './maps/oceania';
 
 import RussiaMap from './maps/countries/russia';
 import USAMap from './maps/countries/usa';
 import IndiaMap from './maps/countries/india';
 import GermanyMap from './maps/countries/germany';
+
+import ReactTooltip from 'react-tooltip'
 
 export default class Map extends React.Component {
 
@@ -52,12 +52,34 @@ export default class Map extends React.Component {
             {
                 type: "asia",
                 name: "Азия",
-                el: <AsiaMap />
+                areas: [
+                    'BD', 'MN', 'BN', 'BH',
+                    'BT', 'HK', 'JO', 'PS',
+                    'LB', 'LA', 'TW',
+                    'TR', 'LK', 'TL', 'TM',
+                    'TJ', 'TH', 'NP',
+                    'PK', 'PH', 'YE', 'AE',
+                    'CN', 'AF', 'IQ', 'JP',
+                    'IR', 'AM', 'SY', 'VN',
+                    'GE', 'IL', 'IN', 'AZ',
+                    'ID', 'OM', 'KG', 'UZ',
+                    'MM', 'SG', 'KH', 'CY',
+                    'QA', 'KR', 'KP', 'KW',
+                    'KZ', 'SA', 'MY'
+                ],
+                viewBox: '-80 -20 850 430',
+                transform: 'scale(0.7) translate(41, 0)'
             },
             {
                 type: "oceania",
                 name: "Австралия и Океания",
-                el: <OceaniaMap />
+                areas: [
+                    'GU', 'PW', 'KI', 'NC',
+                    'NU', 'NZ', 'AU', 'PG',
+                    'SB', 'PF', 'FJ', 'FM',
+                    'WS', 'VU'
+                ],
+                viewBox: '-120 120 800 457'
             }
         ];
     }
@@ -92,7 +114,47 @@ export default class Map extends React.Component {
                 break;
             }
         }
-        return this.availableMaps[i].el;
+
+        /**
+         * TODO: перевести на генерацию все
+         */
+        if (this.availableMaps[i].areas) {
+            return this.getGeneratedMap(this.availableMaps[i]);
+        } else {
+            return this.availableMaps[i].el;
+        }
+    }
+
+    getGeneratedMap(mapConfig) {
+        let template, paths;
+
+        paths = mapConfig.areas.map((code, index) => {
+
+            return (
+                <g key={index}>
+                    <path onMouseMove={this.onMouseMove.bind(this)}
+                          d={this.props.areas[code].path}
+                          data-code={code}
+                          className="map-area" />
+                </g>
+            );
+        });
+
+        template = (
+            <svg viewBox={mapConfig.viewBox}>
+                <g transform={mapConfig.transform}>
+                    {paths}
+                </g>
+            </svg>
+        );
+
+        return template;
+    }
+
+    onMouseMove(event) {
+        let code = event.target.getAttribute('data-code');
+        let tooltipText = this.props.areas[code].fullName;
+        console.log(tooltipText);
     }
 
     getCats() {
@@ -109,7 +171,9 @@ export default class Map extends React.Component {
                     {this.getCats()}
                 </div>
 
-                {this.getSelectedMap(this.props.map)}
+                <div className="map-container">
+                    {this.getSelectedMap(this.props.map)}
+                </div>
             </div>
         )
     }
