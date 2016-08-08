@@ -807,7 +807,9 @@ export default class MapContainer extends React.Component {
 
     onChangeMap(type) {
         this.filterAreasByMapType(type);
-        this.setState({ currentMap: type });
+        this.setState({
+            currentMap: type
+        });
     }
 
     onSelectArea(isChecked, areaAbbr) {
@@ -835,11 +837,15 @@ export default class MapContainer extends React.Component {
             areas = this.state.currentAreas;
 
         for (let area in areas) {
+
             if (!areas.hasOwnProperty(area)){
                 continue;
             }
 
-            if (areas[area].fullName.indexOf(keyWord) === 0) {
+            let normalizedName = areas[area].fullName.toLowerCase(),
+                normalizedKeyword = keyWord.toLowerCase();
+
+            if (normalizedName.indexOf(normalizedKeyword) === 0) {
                 filteredAreas[area] = areas[area];
             }
         }

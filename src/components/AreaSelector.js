@@ -7,6 +7,14 @@ export default class AreaSelector extends React.Component {
         this.props.onSelectArea(target.checked, target.value);
     }
 
+    componentWillReceiveProps(nextProps) {
+        /**
+         * TODO: Очищать поле ввода
+         * @type {string}
+         */
+        this.refs["area-search"].value = "";
+    }
+
     templateCreator () {
 
         let template = [];
@@ -44,7 +52,8 @@ export default class AreaSelector extends React.Component {
                 <div className="area-search">
                     <input className="area-search__input"
                            type="text"
-                           onKeyUp={this.onKeyUp.bind(this)} />
+                           onKeyUp={this.onKeyUp.bind(this)}
+                           ref="area-search"/>
                 </div>
                 <div className="area-selector">
                     {this.templateCreator()}
