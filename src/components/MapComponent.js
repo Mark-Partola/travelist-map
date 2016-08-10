@@ -104,18 +104,6 @@ export default class Map extends React.Component {
         );
     }
 
-    componentDidUpdate () {
-
-        console.log(1);
-        let foundOnMap = this.refs.componentRoot
-            .querySelector(`[data-code="${this.addSelectingArea}"]`);
-
-
-        if (foundOnMap) {
-            foundOnMap.classList[this.isAdd ? 'add' : 'remove']('map-area--selected');
-        }
-    }
-
     onChangeMap(type, event) {
         event.preventDefault();
         this.props.onChangeMap(type);
