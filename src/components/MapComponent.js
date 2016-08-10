@@ -105,9 +105,11 @@ export default class Map extends React.Component {
     }
 
     componentDidUpdate () {
+
+        console.log(1);
         let foundOnMap = this.refs.componentRoot
             .querySelector(`[data-code="${this.addSelectingArea}"]`);
-        
+
 
         if (foundOnMap) {
             foundOnMap.classList[this.isAdd ? 'add' : 'remove']('map-area--selected');
@@ -120,6 +122,7 @@ export default class Map extends React.Component {
     }
 
     getSelectedMap(type) {
+
         let i;
         for(i = 0; i < this.availableMaps.length; i++) {
             if (this.availableMaps[i].type === type) {
@@ -138,36 +141,41 @@ export default class Map extends React.Component {
     }
 
     getGeneratedMap(mapConfig) {
-        let template, paths;
+        let paths;
+        let defaultClass = 'map-area';
+        let activeClass = defaultClass + '--selected';
 
         paths = mapConfig.areas.map((code, index) => {
 
-            return (
-                <path //onMouseMove={this.onMouseMove.bind(this)}
-                      key={index}
-                      d={this.props.areas[code].path}
-                      data-code={code}
-                      className="map-area"
-                      //onMouseEnter={this.toggleTooltip.bind(this, true)}
-                      //onMouseLeave={this.toggleTooltip.bind(this, false)}
-                      onClick={this.onClick.bind(this)} />
-            );
+            let isSelected = this.checkAreaSelecting(code);
+
+            return <path
+                onMouseMove    = { ::this.onMouseMove }
+                onMouseEnter   = { this.toggleTooltip.bind(this, true) }
+                onMouseLeave   = { this.toggleTooltip.bind(this, false) }
+                onClick        = { ::this.onClick }
+                key            = { index }
+                d              = { this.props.areas[code].path }
+                data-code      = { code }
+                className      = { isSelected ? activeClass : defaultClass }
+            />;
         });
 
-        template = (
-            <svg viewBox={mapConfig.viewBox}>
-                <g transform={mapConfig.transform}>
-                    {paths}
+        return (
+            <svg viewBox = { mapConfig.viewBox } >
+                <g transform = { mapConfig.transform} >
+                    { paths }
                 </g>
             </svg>
         );
+    }
 
-        return template;
+    checkAreaSelecting(areaCode) {
+        return this.props.selectedAreas.includes(areaCode);
     }
 
     toggleTooltip(enable) {
-        document.querySelector('.tooltip')
-            .style.display = enable ? "block" : "";
+        document.querySelector('.tooltip').style.display = enable ? "block" : "";
     }
 
     onMouseMove(event) {
@@ -195,9 +203,13 @@ export default class Map extends React.Component {
 
     getCats() {
         return this.availableMaps.map((map, index) => {
-            return <a className="map-cats__item"
-                      key={index}
-                      onClick={this.onChangeMap.bind(this, map.type)}>{map.name}</a>
+            return (
+                <a className = "map-cats__item"
+                   key       = { index }
+                   onClick   = { this.onChangeMap.bind(this, map.type) } >
+                    { map.name }
+                </a>
+            );
         });
     }
 
@@ -205,16 +217,18 @@ export default class Map extends React.Component {
         return (
             <div className="map-component" ref="componentRoot">
                 <div className="map-component__cats map-cats">
-                    {this.getCats()}
+                    { this.getCats() }
                 </div>
 
                 <div className="map-container">
-                    {this.getSelectedMap(this.props.map)}
+                    { this.getSelectedMap(this.props.map) }
                 </div>
 
-                <Tooltip x={this.state.mapTooltip.x}
-                         y={this.state.mapTooltip.y}
-                         content={this.state.mapTooltip.content} />
+                <Tooltip
+                    content = {this.state.mapTooltip.content}
+                    x       = {this.state.mapTooltip.x}
+                    y       = {this.state.mapTooltip.y}
+                />
             </div>
         );
     }

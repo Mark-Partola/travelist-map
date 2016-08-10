@@ -807,9 +807,7 @@ export default class MapContainer extends React.Component {
 
     onChangeMap(type) {
         this.filterAreasByMapType(type);
-        this.setState({
-            currentMap: type
-        });
+        this.setState({ currentMap: type });
     }
 
     onSelectArea(isChecked, areaAbbr) {
@@ -826,10 +824,6 @@ export default class MapContainer extends React.Component {
                 areaAbbr
             );
         }
-
-        console.log(isChecked);
-        console.log(areaAbbr);
-        console.log(newAreas);
 
         this.setState({ selectedAreas: newAreas });
 
@@ -858,21 +852,27 @@ export default class MapContainer extends React.Component {
     }
 
     render() {
+
+        console.log('[RENDER]');
+        console.dir(this.state.selectedAreas);
+
         return (
             <div style={{width: '100%'}}>
+                <MapComponent
+                    map            = { this.state.currentMap }
+                    selectedAreas  = { this.state.selectedAreas }
+                    onSelectArea   = { ::this.onSelectArea }
+                    areas          = { this.state.currentAreas }
+                    onChangeMap    = { ::this.onChangeMap }
+                />
 
-                <MapComponent map={this.state.currentMap}
-                              areas={this.state.currentAreas}
-                              selectedAreas={this.state.selectedAreas}
-                              onChangeMap={this.onChangeMap.bind(this)}
-                              onSelectArea={this.onSelectArea.bind(this)} />
-
-                <AreaSelector map={this.state.currentMap}
-                              selectedAreas={this.state.selectedAreas}
-                              onSelectArea={this.onSelectArea.bind(this)}
-                              areas={this.state.filteredAreas}
-                              filterAreas={this.filterAreas.bind(this)} />
-
+                <AreaSelector
+                    map            = { this.state.currentMap }
+                    selectedAreas  = { this.state.selectedAreas }
+                    onSelectArea   = { ::this.onSelectArea }
+                    areas          = { this.state.filteredAreas }
+                    filterAreas    = { ::this.filterAreas }
+                />
             </div>
         );
     }
