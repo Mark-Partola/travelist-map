@@ -97,6 +97,7 @@ export default class Map extends React.Component {
     componentWillReceiveProps (nextProps) {
         let selectedCount = this.props.selectedAreas.length;
         this.isAdd = selectedCount - nextProps.selectedAreas.length < 0;
+
         this.addSelectingArea = Utils.subtract(
             this.props.selectedAreas,
             nextProps.selectedAreas
@@ -106,6 +107,7 @@ export default class Map extends React.Component {
     componentDidUpdate () {
         let foundOnMap = this.refs.componentRoot
             .querySelector(`[data-code="${this.addSelectingArea}"]`);
+        
 
         if (foundOnMap) {
             foundOnMap.classList[this.isAdd ? 'add' : 'remove']('map-area--selected');
@@ -141,15 +143,14 @@ export default class Map extends React.Component {
         paths = mapConfig.areas.map((code, index) => {
 
             return (
-                <g key={index}>
-                    <path onMouseMove={this.onMouseMove.bind(this)}
-                          d={this.props.areas[code].path}
-                          data-code={code}
-                          className="map-area"
-                          onMouseEnter={this.toggleTooltip.bind(this, true)}
-                          onMouseLeave={this.toggleTooltip.bind(this, false)}
-                          onClick={this.onClick.bind(this)} />
-                </g>
+                <path //onMouseMove={this.onMouseMove.bind(this)}
+                      key={index}
+                      d={this.props.areas[code].path}
+                      data-code={code}
+                      className="map-area"
+                      //onMouseEnter={this.toggleTooltip.bind(this, true)}
+                      //onMouseLeave={this.toggleTooltip.bind(this, false)}
+                      onClick={this.onClick.bind(this)} />
             );
         });
 

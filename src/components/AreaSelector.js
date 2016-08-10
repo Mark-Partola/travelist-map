@@ -8,11 +8,9 @@ export default class AreaSelector extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        /**
-         * TODO: Очищать поле ввода
-         * @type {string}
-         */
-        this.refs["area-search"].value = "";
+        if (nextProps.map !== this.props.map) {
+            this.refs["area-search"].value = "";
+        }
     }
 
     templateCreator () {

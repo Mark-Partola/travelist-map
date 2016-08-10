@@ -4,7 +4,7 @@ var autoprefixer = require('autoprefixer');
 var precss = require('precss');
 
 module.exports = {
-    devtool: 'cheap-module-eval-source-map',
+    devtool: '#eval-source-map',
     entry: [
         'babel-polyfill',
         './src/app'

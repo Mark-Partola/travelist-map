@@ -827,6 +827,10 @@ export default class MapContainer extends React.Component {
             );
         }
 
+        console.log(isChecked);
+        console.log(areaAbbr);
+        console.log(newAreas);
+
         this.setState({ selectedAreas: newAreas });
 
     }
@@ -863,7 +867,8 @@ export default class MapContainer extends React.Component {
                               onChangeMap={this.onChangeMap.bind(this)}
                               onSelectArea={this.onSelectArea.bind(this)} />
 
-                <AreaSelector selectedAreas={this.state.selectedAreas}
+                <AreaSelector map={this.state.currentMap}
+                              selectedAreas={this.state.selectedAreas}
                               onSelectArea={this.onSelectArea.bind(this)}
                               areas={this.state.filteredAreas}
                               filterAreas={this.filterAreas.bind(this)} />
