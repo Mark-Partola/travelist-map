@@ -101,6 +101,103 @@
             margin: 10px auto;
         }
 
+
+        body {
+            background-color: #eee;
+            display: flex;
+            flex-wrap: wrap;
+            width: 70%;
+            margin: 5px auto;
+        }
+
+        .card {
+            flex-grow: 1;
+            margin: 5px;
+            padding: 10px 20px;
+            background-color: #fff;
+            box-shadow: 0 0 2px 0px #999;
+        }
+
+        .card__title {
+            color: #444;
+            font-family: sans-serif;
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 12px;
+        }
+
+        .card__flag img {
+            width: 80px;
+            margin: 0 auto;
+            display: block;
+            height: 50px;
+        }
+
+        .step-slider {
+            display: flex;
+            justify-content: space-between;
+            padding-left: 11px;
+            margin: 15px auto 0;
+            width: 130px;
+            height: 30px;
+        }
+
+        .step-slider-item {
+            height: 1px;
+            flex-grow: 1;
+            position: relative;
+            background-color: #E0E0E0;
+        }
+
+        .step-slider-item span {
+            position: absolute;
+            top: 15px;
+            left: calc(100% - 10px);
+            color: #888;
+            font-size: 14px;
+            font-family: sans-serif;
+        }
+
+        .step-slider-item:after {
+            content: "";
+            cursor: pointer;
+            width: 10px;
+            height: 10px;
+            position: absolute;
+            top: -6px;
+            right: 0;
+            background-color: #FAFAFA;
+            border: 1px solid #aaa;
+            border-radius: 50%;
+            z-index: 2;
+            transition: all 0.3s ease-out 0.5s;
+        }
+
+        .step-slider-item:before {
+            content: "";
+            position: absolute;
+            width: 0%;
+            top: 0;
+            left: 0;
+            height: 1px;
+            background-color: #B0BEC5;
+            z-index: 1;
+            transition: all 0.5s ease-out;
+        }
+
+        .step-slider-item.active:before {
+            width: 100%;
+            background-color: #FF8F00;
+        }
+
+        .step-slider-item:first-child {
+            flex-grow: 0;
+        }
+
+        .step-slider-item.active:after {
+            border-color: #FF8F00;
+        }
+
     </style>
 </head>
 <body>

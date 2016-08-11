@@ -1,4 +1,5 @@
 import React from 'react';
+import AreaCard from '../components/AreaCard';
 
 export default class AreaSelector extends React.Component {
 
@@ -24,16 +25,10 @@ export default class AreaSelector extends React.Component {
             let isChecked = !!this.props.selectedAreas.includes(code);
 
             template.push(
-                <div className="area-selector__item checker" key={code}>
-                    <label className="checker__label">
-                        <span>{this.props.areas[code].fullName}</span>
-                        <input onChange={this.selectArea.bind(this)}
-                               checked={isChecked}
-                               className="checker__box"
-                               type="checkbox"
-                               value={code} />
-                    </label>
-                </div>
+                <AreaCard
+                    key={code}
+                    title={this.props.areas[code].fullName}
+                />
             );
         }
 
